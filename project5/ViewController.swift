@@ -57,17 +57,17 @@ class ViewController: UITableViewController {
     
     // Answer prompt
     @objc func promptForAnswer() {
-        let ac = UIAlertController(title: "Enter answer", message: nil, preferredStyle: .alert)                     // First, we create an alert controller,
-        ac.addTextField()                                                                                           // Then, a text field was added to the alert controller.
+        let ac = UIAlertController(title: "Enter answer", message: nil, preferredStyle: .alert)           // First, we create an alert controller,
+        ac.addTextField()                                                                                 // Then, a text field was added to the alert controller.
 
         let submitAction = UIAlertAction(title: "Submit", style: .default) {
-            [weak self, weak ac] action in                                                                          // "action in" means it accepts 1 parameter, of type UIAlertAction.
-            guard let answer = ac?.textFields?[0].text else { return }                                              // declares a constant with the value of the text field created above.
-            self?.submit(answer)
+            [weak self, weak ac] action in                                                                // "action in" means it accepts 1 parameter, of type UIAlertAction.
+            guard let answer = ac?.textFields?[0].text else { return }                                    // Declares a constant with the value of the text field created above.
+            self?.submit(answer)                                                                          // Execute the function with the parameter set to the constant created.
         }
 
-        ac.addAction(submitAction)                                                                                  // Adds an action to the alert controller.
-        present(ac, animated: true)                                                                                 // Presents the alert.
+        ac.addAction(submitAction)                                                                        // Adds an action to the alert controller.
+        present(ac, animated: true)                                                                       // Presents the alert.
     }
     
     func submit(_ answer: String) {
