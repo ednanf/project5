@@ -13,6 +13,7 @@
 		80770A922A17A4F300BF8080 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80770A902A17A4F300BF8080 /* Main.storyboard */; };
 		80770A942A17A4F400BF8080 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80770A932A17A4F400BF8080 /* Assets.xcassets */; };
 		80770A972A17A4F400BF8080 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80770A952A17A4F400BF8080 /* LaunchScreen.storyboard */; };
+		80770A9F2A17A7DC00BF8080 /* start.txt in Resources */ = {isa = PBXBuildFile; fileRef = 80770A9E2A17A7DC00BF8080 /* start.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		80770A932A17A4F400BF8080 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		80770A962A17A4F400BF8080 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		80770A982A17A4F400BF8080 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		80770A9E2A17A7DC00BF8080 /* start.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = start.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				80770A8E2A17A4F300BF8080 /* ViewController.swift */,
 				80770A902A17A4F300BF8080 /* Main.storyboard */,
 				80770A932A17A4F400BF8080 /* Assets.xcassets */,
+				80770A9E2A17A7DC00BF8080 /* start.txt */,
 				80770A952A17A4F400BF8080 /* LaunchScreen.storyboard */,
 				80770A982A17A4F400BF8080 /* Info.plist */,
 			);
@@ -126,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				80770A972A17A4F400BF8080 /* LaunchScreen.storyboard in Resources */,
+				80770A9F2A17A7DC00BF8080 /* start.txt in Resources */,
 				80770A942A17A4F400BF8080 /* Assets.xcassets in Resources */,
 				80770A922A17A4F300BF8080 /* Main.storyboard in Resources */,
 			);
