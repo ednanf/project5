@@ -18,6 +18,8 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(promptForAnswer))
+        
         // Checks, unwraps and adds to the array all start.txt contents.
         if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {        // First we set the path of start.txt.
             if let startWords = try? String(contentsOf: startWordsURL) {                            // Then, we use "try" to call this code, and if it fails, it returns nil.
@@ -53,13 +55,24 @@ class ViewController: UITableViewController {
         return cell
     }
     
+    // Answer prompt
+    @objc func promptForAnswer() {
+        let ac = UIAlertController(title: "Enter answer", message: nil, preferredStyle: .alert)                     // First, we create an alert controller,
+        ac.addTextField()                                                                                           // Then, a text field was added to the alert controller.
+
+        let submitAction = UIAlertAction(title: "Submit", style: .default) {
+            [weak self, weak ac] action in                                                                          // "action in" means it accepts 1 parameter, of type UIAlertAction.
+            guard let answer = ac?.textFields?[0].text else { return }                                              // declares a constant with the value of the text field created above.
+            self?.submit(answer)
+        }
+
+        ac.addAction(submitAction)                                                                                  // Adds an action to the alert controller.
+        present(ac, animated: true)                                                                                 // Presents the alert.
+    }
     
-    
-    
-    
-    
-    
-    
+    func submit(_ answer: String) {
+        
+    }
     
     
     
