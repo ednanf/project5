@@ -19,14 +19,14 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
         
         // Checks, unwraps and adds to the array all start.txt contents.
-        if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {        // First, we locate the .txt file.
-            if let startWords = try? String(contentsOf: startWordsURL) {                            // We use "try" to call this code, and if it fails, it returns nil.
-                allWords = startWords.components(separatedBy: "\n")
+        if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {        // First we set the path of start.txt.
+            if let startWords = try? String(contentsOf: startWordsURL) {                            // Then, we use "try" to call this code, and if it fails, it returns nil.
+                allWords = startWords.components(separatedBy: "\n")                                 // Lastly, we add the words (which are separated by \n in start.txt) to the array.
             }
         }
         
-        if allWords.isEmpty {
-            allWords = ["silkworm"]
+        if allWords.isEmpty {                                                                       // If the array is empty,
+            allWords = ["silkworm"]                                                                 // We use a word to know that.
         }
         
         startGame()
