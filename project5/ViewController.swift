@@ -72,13 +72,31 @@ class ViewController: UITableViewController {
     
     func submit(_ answer: String) {
         
+        let lowerAnswer = answer.lowercased()                                       // First we make a lowercased string to easily evaluate.
+
+        if isPossible(word: lowerAnswer) {                                          // Then we pass through a nested statement. All conditions must be true to execute the code.
+            if isOriginal(word: lowerAnswer) {
+                if isReal(word: lowerAnswer) {
+                    usedWords.insert(answer, at: 0)                                 // If all conditions are true, insert the string in usedWords at index 0.
+
+                    let indexPath = IndexPath(row: 0, section: 0)                   // Inserts a new row in the table view.
+                    tableView.insertRows(at: [indexPath], with: .automatic)         // The row number matches the IndexPath above, position 0 in this case.
+                }
+            }
+        }
     }
     
+    func isPossible(word: String) -> Bool {
+        return true
+    }
     
+    func isOriginal(word: String) -> Bool {
+        return true
+    }
     
-    
-    
-    
+    func isReal(word: String) -> Bool {
+        return true
+    }
     
 }
 
