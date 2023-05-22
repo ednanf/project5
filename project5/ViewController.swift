@@ -38,9 +38,9 @@ class ViewController: UITableViewController {
     
     // Selects a new random word
     func startGame() {
-        title = allWords.randomElement()                    // Sets the view controller's title to be a random word in the array.
-        usedWords.removeAll(keepingCapacity: true)          // Removes all values from usedWords.
-        tableView.reloadData()                              // Calls numberOfRowsInSection and cellForRowAt repeatedly.
+        title = allWords.randomElement()                        // Sets the view controller's title to be a random word in the array.
+        usedWords.removeAll(keepingCapacity: true)              // Removes all values from usedWords.
+        tableView.reloadData()                                  // Calls numberOfRowsInSection and cellForRowAt repeatedly.
     }
     
     // Sets the number of rows
@@ -50,7 +50,7 @@ class ViewController: UITableViewController {
     
     // Sets the cell's content
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Word", for: indexPath)        // The "Word" identifier that was set in the Interface Builder.
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Word", for: indexPath)                         // The "Word" identifier that was set in the Interface Builder.
         cell.textLabel?.text = usedWords[indexPath.row]
         return cell
     }
@@ -63,28 +63,49 @@ class ViewController: UITableViewController {
         let submitAction = UIAlertAction(title: "Submit", style: .default) {
             [weak self, weak ac] action in                                                                // "action in" means it accepts 1 parameter, of type UIAlertAction.
             guard let answer = ac?.textFields?[0].text else { return }                                    // Declares a constant with the value of the text field created above.
-            self?.submit(answer)                                                                          // Execute the function with the parameter set to the constant created.
+            self?.submit(answer: answer)                                                                  // Execute the function with the parameter set to the constant created.
         }
 
         ac.addAction(submitAction)                                                                        // Adds an action to the alert controller.
         present(ac, animated: true)                                                                       // Presents the alert.
     }
     
-    func submit(_ answer: String) {
-        
-        let lowerAnswer = answer.lowercased()                                       // First we make a lowercased string to easily evaluate.
+    // Checks the validity of answers.
+    func submit(answer: String) {
+        let lowerAnswer = answer.lowercased()                                   // First we make a lowercased string to easily evaluate.
 
-        if isPossible(word: lowerAnswer) {                                          // Then we pass through a nested statement. All conditions must be true to execute the code.
+        let errorTitle: String
+        let errorMessage: String
+   
+        if isPossible(word: lowerAnswer) {                                      // Then we pass through a nested statement. All conditions must be true to execute the code.
             if isOriginal(word: lowerAnswer) {
                 if isReal(word: lowerAnswer) {
-                    usedWords.insert(answer, at: 0)                                 // If all conditions are true, insert the string in usedWords at index 0.
+                    usedWords.insert(answer, at: 0)                             // If all conditions are true, insert the string in usedWords at index 0.
+                    
+                    let indexPath = IndexPath(row: 0, section: 0)               // Inserts a new row in the table view.
+                    tableView.insertRows(at: [indexPath], with: .automatic)     // The row number matches the IndexPath above, position 0 in this case.
 
-                    let indexPath = IndexPath(row: 0, section: 0)                   // Inserts a new row in the table view.
-                    tableView.insertRows(at: [indexPath], with: .automatic)         // The row number matches the IndexPath above, position 0 in this case.
+                    return
+                } else {                                                        // Error message if the word is not real.
+                    errorTitle = "Word not recognised"
+                    errorMessage = "You can't just make them up, you know!"
                 }
+            } else {                                                            // Error message if the word is repeated.
+                errorTitle = "Word used already"
+                errorMessage = "Be more original!"
             }
+        } else {                                                                // Error message if the word is not possible
+            guard let title = title?.lowercased() else { return }
+            errorTitle = "Word not possible"
+            errorMessage = "You can't spell that word from \(title)"
         }
+
+        let ac = UIAlertController(title: errorTitle, message: errorMessage, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
     }
+    
+
     
     // Checks if the word is possible.
     func isPossible(word: String) -> Bool {
