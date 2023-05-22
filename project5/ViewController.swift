@@ -74,9 +74,6 @@ class ViewController: UITableViewController {
     func submit(answer: String) {
         let lowerAnswer = answer.lowercased()                                   // First we make a lowercased string to easily evaluate.
 
-        let errorTitle: String
-        let errorMessage: String
-   
         if isPossible(word: lowerAnswer) {                                      // Then we pass through a nested statement. All conditions must be true to execute the code.
             if isOriginal(word: lowerAnswer) {
                 if isReal(word: lowerAnswer) {
@@ -87,22 +84,17 @@ class ViewController: UITableViewController {
 
                     return
                 } else {                                                        // Error message if the word is not real.
-                    errorTitle = "Word not recognised"
-                    errorMessage = "You can't just make them up, you know!"
+                    // ***CHALLENGE 2***
+                    showErrorMessage("You can't just make them up, you know!", withTitle: "Word not recognised!")
                 }
             } else {                                                            // Error message if the word is repeated.
-                errorTitle = "Word used already"
-                errorMessage = "Be more original!"
+                // ***CHALLENGE 2***
+                showErrorMessage("Be more original!", withTitle: "Word used already!")
             }
         } else {                                                                // Error message if the word is not possible
-            guard let title = title?.lowercased() else { return }
-            errorTitle = "Word not possible"
-            errorMessage = "You can't spell that word from \(title)"
+            // ***CHALLENGE 2***
+            showErrorMessage("You can't spell that word from \(title ?? "SHIT! IT'S BROKEN!")", withTitle: "Word not possible!")
         }
-
-        let ac = UIAlertController(title: errorTitle, message: errorMessage, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        present(ac, animated: true)
     }
     
 
@@ -142,6 +134,11 @@ class ViewController: UITableViewController {
             return misspelledRange.location == NSNotFound                   // Tells the word is spelled correctly. This will return either true or false.
     }
 
-    
+    // ***CHALLENGE 2***: Refactor the else statements using a function to show the error message
+    func showErrorMessage(_ errorMessage: String, withTitle errorTitle: String) {
+        let ac = UIAlertController(title: errorTitle, message: errorMessage, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
 }
 
