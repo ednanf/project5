@@ -50,7 +50,7 @@ class ViewController: UITableViewController {
     
     // Sets the cell's content
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Word", for: indexPath)                         // The "Word" identifier that was set in the Interface Builder.
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Word", for: indexPath)                  // The "Word" identifier that was set in the Interface Builder.
         cell.textLabel?.text = usedWords[indexPath.row]
         return cell
     }
@@ -129,11 +129,11 @@ class ViewController: UITableViewController {
     
     // Checks if the word is real.
     func isReal(word: String) -> Bool {
-        let checker = UITextChecker()       // iOS class designed to spot spelling errors.
+        let checker = UITextChecker()                                       // iOS class designed to spot spelling errors.
             let range = NSRange(location: 0, length: word.utf16.count)      // Stores a string range. ATTENTION: user utf16.count when working with UIKit, SpriteKit or any other Apple framework!
             let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
 
-            return misspelledRange.location == NSNotFound       // Tells the word is spelled correctly. This will return either true or false.
+            return misspelledRange.location == NSNotFound                   // Tells the word is spelled correctly. This will return either true or false.
     }
     
 }
