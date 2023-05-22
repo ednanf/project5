@@ -124,17 +124,24 @@ class ViewController: UITableViewController {
     
     // Checks if the word was guessed previously.
     func isOriginal(word: String) -> Bool {
+        // ***CHALLENGE 1*** - part 2: disallow entering the same word as the title.
+        guard word != title else { return false }
+        
         return !usedWords.contains(word)        // ATTENTION: !usedWords is necessary. It means userWords **does not** contain word.
     }
     
     // Checks if the word is real.
     func isReal(word: String) -> Bool {
+        // ***CHALLENGE 1*** - part 1: disallow words shorter than 3 words.
+        guard word.count > 3 else { return false }
+        
         let checker = UITextChecker()                                       // iOS class designed to spot spelling errors.
             let range = NSRange(location: 0, length: word.utf16.count)      // Stores a string range. ATTENTION: user utf16.count when working with UIKit, SpriteKit or any other Apple framework!
             let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
 
             return misspelledRange.location == NSNotFound                   // Tells the word is spelled correctly. This will return either true or false.
     }
+
     
 }
 
