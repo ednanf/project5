@@ -8,17 +8,20 @@
 import UIKit
 
 class ViewController: UITableViewController {
-
-// MARK: - Properties
+    
+    // MARK: - Properties
     
     var allWords: [String] = []
     var usedWords: [String] = []
     
-// MARK: - Setup
+    // MARK: - Setup
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(promptForAnswer))
+        
+        // ***CHALLENGE 3***: Add a left bar button that calls startGame
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "New Word", style: .plain, target: self, action: #selector(startGameSelector))
         
         // Checks, unwraps and adds to the array all start.txt contents.
         if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {        // First we set the path of start.txt.
@@ -33,39 +36,39 @@ class ViewController: UITableViewController {
         
         startGame()
     }
-
-// MARK: - Functions
     
-    // Selects a new random word
+    // MARK: - Functions
+    
+    // Selects a new random word.
     func startGame() {
         title = allWords.randomElement()                        // Sets the view controller's title to be a random word in the array.
         usedWords.removeAll(keepingCapacity: true)              // Removes all values from usedWords.
         tableView.reloadData()                                  // Calls numberOfRowsInSection and cellForRowAt repeatedly.
     }
     
-    // Sets the number of rows
+    // Sets the number of rows.
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return usedWords.count
     }
     
-    // Sets the cell's content
+    // Sets the cell's content.
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Word", for: indexPath)                  // The "Word" identifier that was set in the Interface Builder.
         cell.textLabel?.text = usedWords[indexPath.row]
         return cell
     }
     
-    // Answer prompt
+    // Answer prompt.
     @objc func promptForAnswer() {
         let ac = UIAlertController(title: "Enter answer", message: nil, preferredStyle: .alert)           // First, we create an alert controller,
         ac.addTextField()                                                                                 // Then, a text field was added to the alert controller.
-
+        
         let submitAction = UIAlertAction(title: "Submit", style: .default) {
             [weak self, weak ac] action in                                                                // "action in" means it accepts 1 parameter, of type UIAlertAction.
             guard let answer = ac?.textFields?[0].text else { return }                                    // Declares a constant with the value of the text field created above.
             self?.submit(answer: answer)                                                                  // Execute the function with the parameter set to the constant created.
         }
-
+        
         ac.addAction(submitAction)                                                                        // Adds an action to the alert controller.
         present(ac, animated: true)                                                                       // Presents the alert.
     }
@@ -73,7 +76,7 @@ class ViewController: UITableViewController {
     // Checks the validity of answers.
     func submit(answer: String) {
         let lowerAnswer = answer.lowercased()                                   // First we make a lowercased string to easily evaluate.
-
+        
         if isPossible(word: lowerAnswer) {                                      // Then we pass through a nested statement. All conditions must be true to execute the code.
             if isOriginal(word: lowerAnswer) {
                 if isReal(word: lowerAnswer) {
@@ -81,7 +84,7 @@ class ViewController: UITableViewController {
                     
                     let indexPath = IndexPath(row: 0, section: 0)               // Inserts a new row in the table view.
                     tableView.insertRows(at: [indexPath], with: .automatic)     // The row number matches the IndexPath above, position 0 in this case.
-
+                    
                     return
                 } else {                                                        // Error message if the word is not real.
                     // ***CHALLENGE 2***
@@ -97,21 +100,18 @@ class ViewController: UITableViewController {
         }
     }
     
-
-    
     // Checks if the word is possible.
     func isPossible(word: String) -> Bool {
         guard var tempWord = title?.lowercased() else { return false }
-                                                                            // This loop ensures each letter in the word can only be used once.
+        // This loop ensures each letter in the word can only be used once.
         for letter in word {                                                // Loops through every letter in the word
-                if let position = tempWord.firstIndex(of: letter) {         // If there's a match for the letter,
-                    tempWord.remove(at: position)                           // remove it.
-                } else {
-                    return false
-                }
+            if let position = tempWord.firstIndex(of: letter) {         // If there's a match for the letter,
+                tempWord.remove(at: position)                           // remove it.
+            } else {
+                return false
             }
-
-            return true
+        }
+        return true
     }
     
     // Checks if the word was guessed previously.
@@ -128,17 +128,24 @@ class ViewController: UITableViewController {
         guard word.count > 3 else { return false }
         
         let checker = UITextChecker()                                       // iOS class designed to spot spelling errors.
-            let range = NSRange(location: 0, length: word.utf16.count)      // Stores a string range. ATTENTION: user utf16.count when working with UIKit, SpriteKit or any other Apple framework!
-            let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
-
-            return misspelledRange.location == NSNotFound                   // Tells the word is spelled correctly. This will return either true or false.
+        let range = NSRange(location: 0, length: word.utf16.count)      // Stores a string range. ATTENTION: user utf16.count when working with UIKit, SpriteKit or any other Apple framework!
+        let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
+        
+        return misspelledRange.location == NSNotFound                   // Tells the word is spelled correctly. This will return either true or false.
     }
-
+    
     // ***CHALLENGE 2***: Refactor the else statements using a function to show the error message
     func showErrorMessage(_ errorMessage: String, withTitle errorTitle: String) {
         let ac = UIAlertController(title: errorTitle, message: errorMessage, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
     }
+    
+    // ***CHALLENGE 3***
+    @objc func startGameSelector() {
+        title = allWords.randomElement()
+        usedWords.removeAll(keepingCapacity: true)
+        tableView.reloadData()
+    }
+    
 }
-
